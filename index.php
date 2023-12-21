@@ -1,3 +1,13 @@
+<?php
+session_start();
+if(!isset($_SESSION['sid'])){
+  ?>
+  <script>
+    document.location="login.php";
+  </script>
+  <?php
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
