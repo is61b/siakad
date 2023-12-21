@@ -17,10 +17,33 @@ if(isset($_POST['tombol'])){
     //4. jalankan query
     $result = mysqli_query($con,$qry);
 
-    if($result){
-        $pesan = '<div class="alert alert-success" role="alert">
-        Login Berhasil!.
-        </div>';
+    //5. menghitung jumlah hasil query
+    $hitung = mysqli_num_rows($result);
+
+    if($hitung > 0){
+        //proses login
+
+        //1. mengambil seluruh data login
+        $data = mysqli_fetch_array($result);
+        $id = $data['id'];
+        $nama = $data['nama'];
+
+        //pembuatan session
+        $_SESSION['sid'] = $id;
+        $_SESSION['snama'] = $nama;
+        $_SESSION['semail'] = $email;
+
+        //update last log
+        $qry_update = "UPDATE users SET last_log='now()' 
+        WHERE id='$id'";
+        $res_update = mysqli_query($con, $qry_update);
+
+        //pengalihan ke halaman index
+        ?>
+        <script>
+            document.location="index.php";
+        </script>
+        <?php
     }else{
         $pesan = '<div class="alert alert-danger" role="alert">
         Login Tidak Valid!.
